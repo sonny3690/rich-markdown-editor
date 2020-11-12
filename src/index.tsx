@@ -20,6 +20,7 @@ import { EmbedDescriptor, ToastType } from "./types";
 import SelectionToolbar from "./components/SelectionToolbar";
 import BlockMenu from "./components/BlockMenu";
 import LinkToolbar from "./components/LinkToolbar";
+import LinkSectionToolbar from "./components/LinkSectionToolbar";
 import Tooltip from "./components/Tooltip";
 import Extension from "./lib/Extension";
 import ExtensionManager from "./lib/ExtensionManager";
@@ -115,6 +116,7 @@ export type Props = {
 type State = {
   blockMenuOpen: boolean;
   linkMenuOpen: boolean;
+  linkSectionMenuOpen: boolean;
   blockMenuSearch: string;
 };
 
@@ -143,6 +145,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
   state = {
     blockMenuOpen: false,
     linkMenuOpen: false,
+    linkSectionMenuOpen: false,
     blockMenuSearch: "",
   };
 
@@ -493,6 +496,14 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
     this.setState({ linkMenuOpen: false });
   };
 
+  handleOpenLinkSectionMenu = () => {
+    this.setState({ linkSectionMenuOpen: true });
+  };
+
+  handleCloseLinkSectionMenu = () => {
+    this.setState({ linkSectionMenuOpen: false });
+  };
+
   handleOpenBlockMenu = (search: string) => {
     this.setState({ blockMenuOpen: true, blockMenuSearch: search });
   };
@@ -621,6 +632,17 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
                   onClose={this.handleCloseLinkMenu}
                   tooltip={tooltip}
                 />
+                <LinkSectionToolbar
+                  view={this.view}
+                  dictionary={dictionary}
+                  isActive={this.state.linkSectionMenuOpen}
+                  onCreateLink={this.props.onCreateLink}
+                  onSearchLink={this.props.onSearchLink}
+                  onClickLink={this.props.onClickLink}
+                  onShowToast={this.props.onShowToast}
+                  onClose={this.handleCloseLinkSectionMenu}
+                  tooltip={tooltip}
+                />
                 <BlockMenu
                   view={this.view}
                   commands={this.commands}
@@ -630,6 +652,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
                   onClose={this.handleCloseBlockMenu}
                   uploadImage={this.props.uploadImage}
                   onLinkToolbarOpen={this.handleOpenLinkMenu}
+                  onLinkSectionToolbarOpen={this.handleOpenLinkSectionMenu}
                   onImageUploadStart={this.props.onImageUploadStart}
                   onImageUploadStop={this.props.onImageUploadStop}
                   onShowToast={this.props.onShowToast}

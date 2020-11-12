@@ -26,6 +26,7 @@ type Props = {
   onImageUploadStop?: () => void;
   onShowToast?: (message: string, id: string) => void;
   onLinkToolbarOpen: () => void;
+  onLinkSectionToolbarOpen: () => void;
   onClose: () => void;
   embeds: EmbedDescriptor[];
 };
@@ -160,6 +161,12 @@ class BlockMenu extends React.Component<Props, State> {
         this.clearSearch();
         this.props.onClose();
         this.props.onLinkToolbarOpen();
+        return;
+      }
+      case "link_section": {
+        this.clearSearch();
+        this.props.onClose();
+        this.props.onLinkSectionToolbarOpen();
         return;
       }
       default:
