@@ -30,6 +30,7 @@ export const base = {
   info: "Info",
   infoNotice: "Info notice",
   link: "Link",
+  linkSection: "Link Section",
   linkCopied: "Link copied to clipboard",
   mark: "Highlight",
   newLineEmpty: "Type '/' to insert…",

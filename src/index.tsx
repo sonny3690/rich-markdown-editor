@@ -132,7 +132,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
     onImageUploadStop: () => {
       // no default behavior
     },
-    onClickLink: href => {
+    onClickLink: (href) => {
       window.open(href, "_blank");
     },
     embeds: [],
@@ -403,7 +403,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
       throw new Error("createView called before ref available");
     }
 
-    const isEditingCheckbox = tr => {
+    const isEditingCheckbox = (tr) => {
       return tr.steps.some(
         (step: Step) =>
           step.slice.content.firstChild &&
@@ -417,7 +417,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
       editable: () => !this.props.readOnly,
       nodeViews: this.nodeViews,
       handleDOMEvents: this.props.handleDOMEvents,
-      dispatchTransaction: transaction => {
+      dispatchTransaction: (transaction) => {
         const { state, transactions } = this.view.state.applyTransaction(
           transaction
         );
@@ -428,7 +428,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
         // changing then call our own change handler to let the outside world
         // know
         if (
-          transactions.some(tr => tr.docChanged) &&
+          transactions.some((tr) => tr.docChanged) &&
           (!this.props.readOnly ||
             (this.props.readOnlyWriteCheckboxes &&
               transactions.some(isEditingCheckbox)))
@@ -533,7 +533,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
     const headings: { title: string; level: number; id: string }[] = [];
     const previouslySeen = {};
 
-    this.view.state.doc.forEach(node => {
+    this.view.state.doc.forEach((node) => {
       if (node.type.name === "heading") {
         // calculate the optimal slug
         const slug = headingToSlug(node);
@@ -580,6 +580,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
       onKeyDown,
     } = this.props;
     const dictionary = this.dictionary(this.props.dictionary);
+    console.log("this is slightly problematic!!");
 
     return (
       <Flex
@@ -595,7 +596,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
             <StyledEditor
               readOnly={readOnly}
               readOnlyWriteCheckboxes={readOnlyWriteCheckboxes}
-              ref={ref => (this.element = ref)}
+              ref={(ref) => (this.element = ref)}
             />
             {!readOnly && this.view && (
               <React.Fragment>
@@ -647,10 +648,10 @@ const StyledEditor = styled("div")<{
   readOnly?: boolean;
   readOnlyWriteCheckboxes?: boolean;
 }>`
-  color: ${props => props.theme.text};
-  background: ${props => props.theme.background};
-  font-family: ${props => props.theme.fontFamily};
-  font-weight: ${props => props.theme.fontWeight};
+  color: ${(props) => props.theme.text};
+  background: ${(props) => props.theme.background};
+  font-family: ${(props) => props.theme.fontFamily};
+  font-weight: ${(props) => props.theme.fontWeight};
   font-size: 1em;
   line-height: 1.7em;
   width: 100%;
@@ -682,13 +683,13 @@ const StyledEditor = styled("div")<{
     text-align: center;
 
     img {
-      pointer-events: ${props => (props.readOnly ? "initial" : "none")};
+      pointer-events: ${(props) => (props.readOnly ? "initial" : "none")};
     }
   }
 
   .image.placeholder {
     position: relative;
-    background: ${props => props.theme.background};
+    background: ${(props) => props.theme.background};
 
     img {
       opacity: 0.5;
@@ -707,7 +708,7 @@ const StyledEditor = styled("div")<{
 
   .ProseMirror-selectednode {
     outline: 2px solid
-      ${props => (props.readOnly ? "transparent" : props.theme.selected)};
+      ${(props) => (props.readOnly ? "transparent" : props.theme.selected)};
   }
 
   /* Make sure li selections wrap around markers */
@@ -723,7 +724,7 @@ const StyledEditor = styled("div")<{
     right: -2px;
     top: -2px;
     bottom: -2px;
-    border: 2px solid ${props => props.theme.selected};
+    border: 2px solid ${(props) => props.theme.selected};
     pointer-events: none;
   }
 
@@ -738,10 +739,10 @@ const StyledEditor = styled("div")<{
     cursor: default;
 
     &:not(.placeholder):before {
-      display: ${props => (props.readOnly ? "none" : "block")};
+      display: ${(props) => (props.readOnly ? "none" : "block")};
       position: absolute;
-      font-family: ${props => props.theme.fontFamilyMono};
-      color: ${props => props.theme.textSecondary};
+      font-family: ${(props) => props.theme.fontFamilyMono};
+      color: ${(props) => props.theme.textSecondary};
       font-size: 13px;
       left: -24px;
     }
@@ -754,7 +755,7 @@ const StyledEditor = styled("div")<{
   }
 
   .heading-name {
-    color: ${props => props.theme.text};
+    color: ${(props) => props.theme.text};
 
     &:hover {
       text-decoration: none;
@@ -801,8 +802,8 @@ const StyledEditor = styled("div")<{
 
   .heading-anchor {
     opacity: 0;
-    display: ${props => (props.readOnly ? "block" : "none")};
-    color: ${props => props.theme.textSecondary};
+    display: ${(props) => (props.readOnly ? "block" : "none")};
+    color: ${(props) => props.theme.textSecondary};
     cursor: pointer;
     background: none;
     border: 0;
@@ -811,23 +812,23 @@ const StyledEditor = styled("div")<{
     margin: 0;
     position: absolute;
     transition: opacity 100ms ease-in-out;
-    font-family: ${props => props.theme.fontFamilyMono};
+    font-family: ${(props) => props.theme.fontFamilyMono};
     font-size: 22px;
     left: -1.3em;
 
     &:focus,
     &:hover {
-      color: ${props => props.theme.text};
+      color: ${(props) => props.theme.text};
     }
   }
 
   .placeholder {
     &:before {
       display: block;
-      content: ${props => (props.readOnly ? "" : "attr(data-empty-text)")};
+      content: ${(props) => (props.readOnly ? "" : "attr(data-empty-text)")};
       pointer-events: none;
       height: 0;
-      color: ${props => props.theme.placeholder};
+      color: ${(props) => props.theme.placeholder};
     }
   }
 
@@ -840,14 +841,14 @@ const StyledEditor = styled("div")<{
   .notice-block {
     display: flex;
     align-items: center;
-    background: ${props => props.theme.noticeInfoBackground};
-    color: ${props => props.theme.noticeInfoText};
+    background: ${(props) => props.theme.noticeInfoBackground};
+    color: ${(props) => props.theme.noticeInfoText};
     border-radius: 4px;
     padding: 8px 16px;
     margin: 8px 0;
 
     a {
-      color: ${props => props.theme.noticeInfoText};
+      color: ${(props) => props.theme.noticeInfoText};
     }
 
     a:not(.heading-name) {
@@ -865,25 +866,25 @@ const StyledEditor = styled("div")<{
   }
 
   .notice-block.tip {
-    background: ${props => props.theme.noticeTipBackground};
-    color: ${props => props.theme.noticeTipText};
+    background: ${(props) => props.theme.noticeTipBackground};
+    color: ${(props) => props.theme.noticeTipText};
 
     a {
-      color: ${props => props.theme.noticeTipText};
+      color: ${(props) => props.theme.noticeTipText};
     }
   }
 
   .notice-block.warning {
-    background: ${props => props.theme.noticeWarningBackground};
-    color: ${props => props.theme.noticeWarningText};
+    background: ${(props) => props.theme.noticeWarningBackground};
+    color: ${(props) => props.theme.noticeWarningText};
 
     a {
-      color: ${props => props.theme.noticeWarningText};
+      color: ${(props) => props.theme.noticeWarningText};
     }
   }
 
   blockquote {
-    border-left: 3px solid ${props => props.theme.quote};
+    border-left: 3px solid ${(props) => props.theme.quote};
     margin: 0;
     padding-left: 10px;
     font-style: italic;
@@ -895,14 +896,14 @@ const StyledEditor = styled("div")<{
   }
 
   .template-placeholder {
-    color: ${props => props.theme.placeholder};
-    border-bottom: 1px dotted ${props => props.theme.placeholder};
+    color: ${(props) => props.theme.placeholder};
+    border-bottom: 1px dotted ${(props) => props.theme.placeholder};
     border-radius: 2px;
     cursor: text;
 
     &:hover {
       border-bottom: 1px dotted
-        ${props =>
+        ${(props) =>
           props.readOnly ? props.theme.placeholder : props.theme.textSecondary};
     }
   }
@@ -913,11 +914,11 @@ const StyledEditor = styled("div")<{
   }
 
   a {
-    color: ${props => props.theme.link};
+    color: ${(props) => props.theme.link};
   }
 
   a:hover {
-    text-decoration: ${props => (props.readOnly ? "underline" : "none")};
+    text-decoration: ${(props) => (props.readOnly ? "underline" : "none")};
   }
 
   ul,
@@ -950,14 +951,14 @@ const StyledEditor = styled("div")<{
   }
 
   ul.checkbox_list li.checked > div > p {
-    color: ${props => props.theme.textSecondary};
+    color: ${(props) => props.theme.textSecondary};
     text-decoration: line-through;
   }
 
   ul.checkbox_list li input {
-    pointer-events: ${props =>
+    pointer-events: ${(props) =>
       props.readOnly && !props.readOnlyWriteCheckboxes ? "none" : "initial"};
-    opacity: ${props =>
+    opacity: ${(props) =>
       props.readOnly && !props.readOnlyWriteCheckboxes ? 0.75 : 1};
     margin: 0 0.5em 0 0;
     width: 14px;
@@ -971,21 +972,21 @@ const StyledEditor = styled("div")<{
   hr {
     height: 0;
     border: 0;
-    border-top: 1px solid ${props => props.theme.horizontalRule};
+    border-top: 1px solid ${(props) => props.theme.horizontalRule};
   }
 
   code {
     border-radius: 4px;
-    border: 1px solid ${props => props.theme.codeBorder};
+    border: 1px solid ${(props) => props.theme.codeBorder};
     padding: 3px 4px;
-    font-family: ${props => props.theme.fontFamilyMono};
+    font-family: ${(props) => props.theme.fontFamilyMono};
     font-size: 85%;
   }
 
   mark {
     border-radius: 1px;
-    color: ${props => props.theme.black};
-    background: ${props => props.theme.textHighlight};
+    color: ${(props) => props.theme.black};
+    background: ${(props) => props.theme.textHighlight};
   }
 
   .code-block,
@@ -994,8 +995,8 @@ const StyledEditor = styled("div")<{
 
     select,
     button {
-      background: ${props => props.theme.blockToolbarBackground};
-      color: ${props => props.theme.blockToolbarItem};
+      background: ${(props) => props.theme.blockToolbarBackground};
+      color: ${(props) => props.theme.blockToolbarItem};
       border-width: 1px;
       font-size: 13px;
       display: none;
@@ -1013,11 +1014,11 @@ const StyledEditor = styled("div")<{
 
     &:hover {
       select {
-        display: ${props => (props.readOnly ? "none" : "inline")};
+        display: ${(props) => (props.readOnly ? "none" : "inline")};
       }
 
       button {
-        display: ${props => (props.readOnly ? "inline" : "none")};
+        display: ${(props) => (props.readOnly ? "inline" : "none")};
       }
     }
 
@@ -1033,12 +1034,12 @@ const StyledEditor = styled("div")<{
     padding: 0.75em 1em;
     line-height: 1.4em;
     position: relative;
-    background: ${props => props.theme.codeBackground};
+    background: ${(props) => props.theme.codeBackground};
     border-radius: 4px;
-    border: 1px solid ${props => props.theme.codeBorder};
+    border: 1px solid ${(props) => props.theme.codeBorder};
 
     -webkit-font-smoothing: initial;
-    font-family: ${props => props.theme.fontFamilyMono};
+    font-family: ${(props) => props.theme.fontFamilyMono};
     font-size: 13px;
     direction: ltr;
     text-align: left;
@@ -1052,7 +1053,7 @@ const StyledEditor = styled("div")<{
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
-    color: ${props => props.theme.code};
+    color: ${(props) => props.theme.code};
     margin: 0;
 
     code {
@@ -1067,11 +1068,11 @@ const StyledEditor = styled("div")<{
   .token.prolog,
   .token.doctype,
   .token.cdata {
-    color: ${props => props.theme.codeComment};
+    color: ${(props) => props.theme.codeComment};
   }
 
   .token.punctuation {
-    color: ${props => props.theme.codePunctuation};
+    color: ${(props) => props.theme.codePunctuation};
   }
 
   .token.namespace {
@@ -1081,34 +1082,34 @@ const StyledEditor = styled("div")<{
   .token.operator,
   .token.boolean,
   .token.number {
-    color: ${props => props.theme.codeNumber};
+    color: ${(props) => props.theme.codeNumber};
   }
 
   .token.property {
-    color: ${props => props.theme.codeProperty};
+    color: ${(props) => props.theme.codeProperty};
   }
 
   .token.tag {
-    color: ${props => props.theme.codeTag};
+    color: ${(props) => props.theme.codeTag};
   }
 
   .token.string {
-    color: ${props => props.theme.codeString};
+    color: ${(props) => props.theme.codeString};
   }
 
   .token.selector {
-    color: ${props => props.theme.codeSelector};
+    color: ${(props) => props.theme.codeSelector};
   }
 
   .token.attr-name {
-    color: ${props => props.theme.codeAttr};
+    color: ${(props) => props.theme.codeAttr};
   }
 
   .token.entity,
   .token.url,
   .language-css .token.string,
   .style .token.string {
-    color: ${props => props.theme.codeEntity};
+    color: ${(props) => props.theme.codeEntity};
   }
 
   .token.attr-value,
@@ -1116,22 +1117,22 @@ const StyledEditor = styled("div")<{
   .token.control,
   .token.directive,
   .token.unit {
-    color: ${props => props.theme.codeKeyword};
+    color: ${(props) => props.theme.codeKeyword};
   }
 
   .token.function {
-    color: ${props => props.theme.codeFunction};
+    color: ${(props) => props.theme.codeFunction};
   }
 
   .token.statement,
   .token.regex,
   .token.atrule {
-    color: ${props => props.theme.codeStatement};
+    color: ${(props) => props.theme.codeStatement};
   }
 
   .token.placeholder,
   .token.variable {
-    color: ${props => props.theme.codePlaceholder};
+    color: ${(props) => props.theme.codePlaceholder};
   }
 
   .token.deleted {
@@ -1139,7 +1140,7 @@ const StyledEditor = styled("div")<{
   }
 
   .token.inserted {
-    border-bottom: 1px dotted ${props => props.theme.codeInserted};
+    border-bottom: 1px dotted ${(props) => props.theme.codeInserted};
     text-decoration: none;
   }
 
@@ -1153,7 +1154,7 @@ const StyledEditor = styled("div")<{
   }
 
   .token.important {
-    color: ${props => props.theme.codeImportant};
+    color: ${(props) => props.theme.codeImportant};
   }
 
   .token.entity {
@@ -1168,18 +1169,18 @@ const StyledEditor = styled("div")<{
 
     tr {
       position: relative;
-      border-bottom: 1px solid ${props => props.theme.tableDivider};
+      border-bottom: 1px solid ${(props) => props.theme.tableDivider};
     }
 
     th {
-      background: ${props => props.theme.tableHeaderBackground};
+      background: ${(props) => props.theme.tableHeaderBackground};
     }
 
     td,
     th {
       position: relative;
       vertical-align: top;
-      border: 1px solid ${props => props.theme.tableDivider};
+      border: 1px solid ${(props) => props.theme.tableDivider};
       position: relative;
       padding: 4px 8px;
       text-align: left;
@@ -1187,7 +1188,7 @@ const StyledEditor = styled("div")<{
     }
 
     .selectedCell {
-      background: ${props =>
+      background: ${(props) =>
         props.readOnly ? "inherit" : props.theme.tableSelectedBackground};
     }
 
@@ -1198,12 +1199,12 @@ const StyledEditor = styled("div")<{
       left: 0;
       width: 100%;
       height: 12px;
-      background: ${props => props.theme.tableDivider};
-      border-bottom: 3px solid ${props => props.theme.background};
-      display: ${props => (props.readOnly ? "none" : "block")};
+      background: ${(props) => props.theme.tableDivider};
+      border-bottom: 3px solid ${(props) => props.theme.background};
+      display: ${(props) => (props.readOnly ? "none" : "block")};
 
       &:hover {
-        background: ${props => props.theme.text};
+        background: ${(props) => props.theme.text};
       }
       &.first {
         border-top-left-radius: 3px;
@@ -1212,7 +1213,7 @@ const StyledEditor = styled("div")<{
         border-top-right-radius: 3px;
       }
       &.selected {
-        background: ${props => props.theme.tableSelected};
+        background: ${(props) => props.theme.tableSelected};
       }
     }
 
@@ -1223,12 +1224,12 @@ const StyledEditor = styled("div")<{
       top: 0;
       height: 100%;
       width: 12px;
-      background: ${props => props.theme.tableDivider};
-      border-right: 3px solid ${props => props.theme.background};
-      display: ${props => (props.readOnly ? "none" : "block")};
+      background: ${(props) => props.theme.tableDivider};
+      border-right: 3px solid ${(props) => props.theme.background};
+      display: ${(props) => (props.readOnly ? "none" : "block")};
 
       &:hover {
-        background: ${props => props.theme.text};
+        background: ${(props) => props.theme.text};
       }
       &.first {
         border-top-left-radius: 3px;
@@ -1237,27 +1238,27 @@ const StyledEditor = styled("div")<{
         border-bottom-left-radius: 3px;
       }
       &.selected {
-        background: ${props => props.theme.tableSelected};
+        background: ${(props) => props.theme.tableSelected};
       }
     }
 
     .grip-table {
       cursor: pointer;
-      background: ${props => props.theme.tableDivider};
+      background: ${(props) => props.theme.tableDivider};
       width: 13px;
       height: 13px;
       border-radius: 13px;
-      border: 2px solid ${props => props.theme.background};
+      border: 2px solid ${(props) => props.theme.background};
       position: absolute;
       top: -18px;
       left: -18px;
-      display: ${props => (props.readOnly ? "none" : "block")};
+      display: ${(props) => (props.readOnly ? "none" : "block")};
 
       &:hover {
-        background: ${props => props.theme.text};
+        background: ${(props) => props.theme.text};
       }
       &.selected {
-        background: ${props => props.theme.tableSelected};
+        background: ${(props) => props.theme.tableSelected};
       }
     }
   }
@@ -1269,8 +1270,8 @@ const StyledEditor = styled("div")<{
     scrollbar-color: transparent transparent;
 
     &:hover {
-      scrollbar-color: ${props => props.theme.scrollbarThumb}
-        ${props => props.theme.scrollbarBackground};
+      scrollbar-color: ${(props) => props.theme.scrollbarThumb}
+        ${(props) => props.theme.scrollbarBackground};
     }
 
     & ::-webkit-scrollbar {
@@ -1279,7 +1280,7 @@ const StyledEditor = styled("div")<{
     }
 
     &:hover ::-webkit-scrollbar {
-      background-color: ${props => props.theme.scrollbarBackground};
+      background-color: ${(props) => props.theme.scrollbarBackground};
     }
 
     & ::-webkit-scrollbar-thumb {
@@ -1289,8 +1290,8 @@ const StyledEditor = styled("div")<{
     }
 
     &:hover ::-webkit-scrollbar-thumb {
-      background-color: ${props => props.theme.scrollbarThumb};
-      border-color: ${props => props.theme.scrollbarBackground};
+      background-color: ${(props) => props.theme.scrollbarThumb};
+      border-color: ${(props) => props.theme.scrollbarBackground};
     }
   }
 
@@ -1317,7 +1318,7 @@ const StyledEditor = styled("div")<{
 
     &.left {
       box-shadow: 16px 0 16px -16px inset rgba(0, 0, 0, 0.25);
-      border-left: 1em solid ${props => props.theme.background};
+      border-left: 1em solid ${(props) => props.theme.background};
     }
 
     &.right {
@@ -1328,9 +1329,9 @@ const StyledEditor = styled("div")<{
   }
 
   .block-menu-trigger {
-    display: ${props => (props.readOnly ? "none" : "block")};
+    display: ${(props) => (props.readOnly ? "none" : "block")};
     height: 1em;
-    color: ${props => props.theme.textSecondary};
+    color: ${(props) => props.theme.textSecondary};
     background: none;
     border-radius: 100%;
     font-size: 30px;
@@ -1348,7 +1349,7 @@ const StyledEditor = styled("div")<{
     &:focus {
       cursor: pointer;
       transform: scale(1);
-      color: ${props => props.theme.text};
+      color: ${(props) => props.theme.text};
     }
   }
 
@@ -1370,7 +1371,7 @@ const StyledEditor = styled("div")<{
     position: absolute;
     top: -2px;
     width: 20px;
-    border-top: 1px solid ${props => props.theme.cursor};
+    border-top: 1px solid ${(props) => props.theme.cursor};
     animation: ProseMirror-cursor-blink 1.1s steps(2, start) infinite;
   }
 
@@ -1387,7 +1388,7 @@ const StyledEditor = styled("div")<{
   @media print {
     em,
     blockquote {
-      font-family: "SF Pro Text", ${props => props.theme.fontFamily};
+      font-family: "SF Pro Text", ${(props) => props.theme.fontFamily};
     }
   }
 `;

@@ -95,6 +95,13 @@ export default function blockMenuItems(
       keywords: "script",
     },
     {
+      name: "link_section",
+      title: dictionary.linkSection,
+      icon: CodeIcon,
+      shortcut: "^ ⇧ \\",
+      keywords: "section",
+    },
+    {
       name: "hr",
       title: dictionary.hr,
       icon: HorizontalRuleIcon,
