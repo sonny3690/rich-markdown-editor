@@ -81,6 +81,12 @@ class LinkSectionEditor extends React.Component<Props, State> {
     return value.trim() || selectionText.trim();
   }
 
+  componentDidMount = async () => {
+    if (this.props.onSearchLink) {
+      await this.props.onSearchLink("");
+    }
+  };
+
   componentWillUnmount = () => {
     // If we discarded the changes then nothing to do
     if (this.discardInputValue) {
@@ -198,9 +204,11 @@ class LinkSectionEditor extends React.Component<Props, State> {
       selectedIndex: -1,
     });
 
+    console.log("chanigng value to", value);
+
     const trimmedValue = value.trim();
 
-    if (trimmedValue && this.props.onSearchLink) {
+    if (this.props.onSearchLink) {
       try {
         const results = await this.props.onSearchLink(trimmedValue);
         this.setState((state) => ({
@@ -267,6 +275,7 @@ class LinkSectionEditor extends React.Component<Props, State> {
   render() {
     const { dictionary, theme } = this.props;
     const { value, selectedIndex } = this.state;
+
     const results =
       this.state.results[value.trim()] ||
       this.state.results[this.state.previousValue] ||
@@ -284,22 +293,18 @@ class LinkSectionEditor extends React.Component<Props, State> {
       !looksLikeUrl;
 
     const showResults =
-      !!suggestedLinkTitle && (showCreateLink || results.length > 0);
+      (!!suggestedLinkTitle && showCreateLink) || results.length >= 0;
+    // !!suggestedLinkTitle && (showCreateLink || results.length >= 0);
 
     return (
       <Wrapper>
         <Input
           value={value}
-          placeholder={
-            showCreateLink
-              ? dictionary.findOrCreateDoc
-              : dictionary.searchOrPasteLink
-          }
+          placeholder={dictionary.searchSection}
           onKeyDown={this.handleKeyDown}
           onChange={this.handleChange}
           autoFocus={this.href === ""}
         />
-
         <ToolbarButton onClick={this.handleOpenLink} disabled={!value}>
           <Tooltip tooltip={dictionary.openLink} placement="top">
             <OpenIcon color={theme.toolbarItem} />
@@ -314,39 +319,21 @@ class LinkSectionEditor extends React.Component<Props, State> {
             )}
           </Tooltip>
         </ToolbarButton>
-
-        {showResults && (
-          <SearchResults id="link-search-results">
-            {results.map((result, index) => (
-              <LinkSearchResult
-                key={result.url}
-                title={result.title}
-                subtitle={result.subtitle}
-                icon={<DocumentIcon color={theme.toolbarItem} />}
-                onMouseOver={() => this.handleFocusLink(index)}
-                onClick={this.handleSelectLink(result.url, result.title)}
-                selected={index === selectedIndex}
-              />
-            ))}
-            {showCreateLink && (
-              <LinkSearchResult
-                key="create"
-                title={suggestedLinkTitle}
-                subtitle={dictionary.createNewDoc}
-                icon={<PlusIcon color={theme.toolbarItem} />}
-                onMouseOver={() => this.handleFocusLink(results.length)}
-                onClick={() => {
-                  this.handleCreateLink(suggestedLinkTitle);
-
-                  if (this.initialSelectionLength) {
-                    this.moveSelectionToEnd();
-                  }
-                }}
-                selected={results.length === selectedIndex}
-              />
-            )}
-          </SearchResults>
-        )}
+        {/* {showResults && ( */}
+        <SearchResults id="link-search-results">
+          {results.map((result, index) => (
+            <LinkSearchResult
+              key={result.url}
+              title={result.title}
+              subtitle={result.subtitle}
+              icon={<DocumentIcon color={theme.toolbarItem} />}
+              onMouseOver={() => this.handleFocusLink(index)}
+              onClick={this.handleSelectLink(result.url, result.title)}
+              selected={index === selectedIndex}
+            />
+          ))}
+        </SearchResults>
+        {/* )} */}
       </Wrapper>
     );
   }

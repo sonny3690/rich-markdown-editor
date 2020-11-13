@@ -5,6 +5,7 @@ import LinkEditor, { SearchResult } from "./LinkEditor";
 import FloatingToolbar from "./FloatingToolbar";
 import createAndInsertLink from "../commands/createAndInsertLink";
 import baseDictionary from "../dictionary";
+import LinkSectionEditor from "./LinkSectionEditor";
 
 type Props = {
   isActive: boolean;
@@ -112,7 +113,7 @@ export default class LinkSectionToolbar extends React.Component<Props> {
         .addMark(
           from,
           to + title.length,
-          state.schema.marks.link.create({ href })
+          state.schema.marks.code.create({ href })
         )
     );
   };
@@ -128,7 +129,7 @@ export default class LinkSectionToolbar extends React.Component<Props> {
         {...rest}
       >
         {isActive(this.props) && (
-          <LinkEditor
+          <LinkSectionEditor
             from={selection.from}
             to={selection.to}
             onCreateLink={onCreateLink ? this.handleOnCreateLink : undefined}

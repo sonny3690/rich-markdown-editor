@@ -44,6 +44,7 @@ export const base = {
   quote: "Quote",
   removeLink: "Remove link",
   searchOrPasteLink: "Search or paste a link…",
+  searchSection: "Search a section...",
   strikethrough: "Strikethrough",
   strong: "Bold",
   subheading: "Subheading",
