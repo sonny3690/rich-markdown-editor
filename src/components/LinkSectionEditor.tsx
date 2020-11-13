@@ -40,13 +40,17 @@ type Props = {
   dictionary: typeof baseDictionary;
   onRemoveLink?: () => void;
   onCreateLink?: (title: string) => Promise<void>;
-  onSearchLink?: (term: string) => Promise<SearchResult[]>;
-  onSelectSection: (options: {
-    url: string;
-    title?: string;
+  onSearchSection?: (term: string) => Promise<SearchResult[]>;
+  onSelectSection: ({
+    result,
+    from,
+    to,
+    context,
+  }: {
+    result: SearchResult;
     from: number;
     to: number;
-    context: string[]
+    context: string[];
   }) => void;
   onClickLink: (href: string, event: MouseEvent) => void;
   onShowToast?: (message: string, code: string) => void;
@@ -75,7 +79,7 @@ class LinkSectionEditor extends React.Component<Props, State> {
     results: {},
   };
 
-  previousSearchContext: string[] = [];
+  searchContext: string[] = [];
 
   get href(): string {
     return this.props.mark ? this.props.mark.attrs.href : "";
@@ -93,8 +97,8 @@ class LinkSectionEditor extends React.Component<Props, State> {
   }
 
   componentDidMount = async () => {
-    if (this.props.onSearchLink) {
-      const results = await this.props.onSearchLink("");
+    if (this.props.onSearchSection) {
+      const results = await this.props.onSearchSection("");
       this.updateSearchResults(results, "");
     }
   };
@@ -128,10 +132,15 @@ class LinkSectionEditor extends React.Component<Props, State> {
     this.discardInputValue = true;
     const { from, to } = this.props;
 
-    this.previousSearchContext.push(query);
+    this.searchContext.push(query);
 
     // this is where we process our link and metadata
-    this.props.onSelectSection({ href: query, title: result.title, from, to });
+    this.props.onSelectSection({
+      result,
+      from,
+      to,
+      context: this.searchContext,
+    });
   };
 
   handleKeyDown = (event: React.KeyboardEvent): void => {
@@ -231,9 +240,9 @@ class LinkSectionEditor extends React.Component<Props, State> {
 
     const trimmedValue = value.trim();
 
-    if (this.props.onSearchLink) {
+    if (this.props.onSearchSection) {
       try {
-        const results = await this.props.onSearchLink(trimmedValue);
+        const results = await this.props.onSearchSection(trimmedValue);
         this.updateSearchResults(results, trimmedValue);
       } catch (error) {
         console.error(error);
@@ -280,7 +289,7 @@ class LinkSectionEditor extends React.Component<Props, State> {
 
     const { url } = selectedResult;
 
-    const res = (await GET("section", { url })) as any;
+    const res = {};
 
     if (res.type === "items") {
       // process more items
@@ -321,6 +330,7 @@ class LinkSectionEditor extends React.Component<Props, State> {
       (!!suggestedLinkTitle && showCreateLink) || results.length >= 0;
     // !!suggestedLinkTitle && (showCreateLink || results.length >= 0);
 
+    console.log("results look like", results);
     return (
       <Wrapper>
         <Input

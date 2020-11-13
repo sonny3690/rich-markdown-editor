@@ -109,6 +109,7 @@ export type Props = {
   onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
   embeds: EmbedDescriptor[];
   onShowToast?: (message: string, code: ToastType) => void;
+  onQuerySectionResult?: (result: SearchResult, context: string[]) => void;
   tooltip: typeof React.Component | React.FC<any>;
   className?: string;
   style?: Record<string, string>;
@@ -640,8 +641,9 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
                   dictionary={dictionary}
                   isActive={this.state.linkSectionMenuOpen}
                   onCreateLink={this.props.onCreateLink}
-                  onSearchLink={this.props.onSearchSectionLink}
+                  onSearchSection={this.props.onSearchSectionLink}
                   onClickLink={this.props.onClickLink}
+                  onQuerySectionResult={this.props.onQuerySectionResult}
                   onShowToast={this.props.onShowToast}
                   onClose={this.handleCloseLinkSectionMenu}
                   tooltip={tooltip}

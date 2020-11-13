@@ -15,6 +15,10 @@ type Props = {
   onSearchLink?: (term: string) => Promise<SearchResult[]>;
   onClickLink: (href: string, event: MouseEvent) => void;
   onShowToast?: (msg: string, code: string) => void;
+  onQuerySectionResult: (
+    result: SearchResult,
+    context: string[]
+  ) => Promise<any>;
   onClose: () => void;
 };
 
@@ -88,18 +92,22 @@ export default class LinkSectionToolbar extends React.Component<Props> {
     });
   };
 
-  handleOnSelectLink = ({
-    href,
-    title,
+  handleOnSelectLink = async ({
+    result,
+    context,
   }: {
-    href: string;
-    title: string;
+    result: SearchResult;
     from: number;
     to: number;
     context: string[];
   }) => {
+    console.log("called called:");
     // maybe only run this when we're actually inserting shit?
+    const res = this.props.onQuerySectionResult(result, context);
 
+    console.log("we did it ", res);
+
+    // send request here!
     const { view, onClose } = this.props;
 
     onClose();
@@ -111,15 +119,15 @@ export default class LinkSectionToolbar extends React.Component<Props> {
 
     // this is where the link inserting actually happens
 
-    dispatch(
-      view.state.tr
-        .insertText(title, from, to)
-        .addMark(
-          from,
-          to + title.length,
-          state.schema.marks.code.create({ href })
-        )
-    );
+    // dispatch(
+    //   view.state.tr
+    //     .insertText(title, from, to)
+    //     .addMark(
+    //       from,
+    //       to + title.length,
+    //       state.schema.marks.code.create({ href })
+    //     )
+    // );
   };
 
   render() {

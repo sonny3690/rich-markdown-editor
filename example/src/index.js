@@ -85,6 +85,14 @@ class Example extends React.Component {
     this.setState({ value });
   };
 
+  // this is how we'll query the sections
+  // add a callback for rendering with the results specifically
+  handleSectionQueryResult = (result, context) => {
+    console.log("section query");
+    const url = "/" + context.join("#");
+    return GET("/section", { url });
+  };
+
   handleChange = debounce((value) => {
     const text = value();
     console.log(text);
@@ -158,7 +166,6 @@ class Example extends React.Component {
           onShowToast={(message, type) => window.alert(`${type}: ${message}`)}
           onSearchLink={async (term) => {
             console.log("Searched link: ", term);
-
             // Delay to simulate time taken for remote API request to complete
             return new Promise((resolve) => {
               setTimeout(() => {
@@ -172,8 +179,10 @@ class Example extends React.Component {
               }, Math.random() * 500);
             });
           }}
-          onSearchSectionLink={async (term, url) => {
-            GET("");
+          onSearchSectionLink={(term, url) => {
+            return GET("searchSection", { searchTerm: term }).then((out) => {
+              return out.data.results;
+            });
           }}
           uploadImage={(file) => {
             console.log("File upload triggered: ", file);
@@ -183,6 +192,7 @@ class Example extends React.Component {
               setTimeout(() => resolve("https://picsum.photos/600/600"), 1500);
             });
           }}
+          onQuerySectionResult={this.handleSectionQueryResult}
           embeds={[]}
           dark={this.state.dark}
           autoFocus
