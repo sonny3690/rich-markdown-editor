@@ -1,11 +1,10 @@
 import assert from "assert";
 import * as React from "react";
 import { EditorView } from "prosemirror-view";
-import LinkEditor, { SearchResult } from "./LinkEditor";
 import FloatingToolbar from "./FloatingToolbar";
 import createAndInsertLink from "../commands/createAndInsertLink";
 import baseDictionary from "../dictionary";
-import LinkSectionEditor from "./LinkSectionEditor";
+import LinkSectionEditor, { SearchResult } from "./LinkSectionEditor";
 
 type Props = {
   isActive: boolean;

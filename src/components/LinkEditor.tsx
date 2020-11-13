@@ -17,12 +17,7 @@ import Input from "./Input";
 import ToolbarButton from "./ToolbarButton";
 import LinkSearchResult from "./LinkSearchResult";
 import baseDictionary from "../dictionary";
-
-export type SearchResult = {
-  title: string;
-  subtitle?: string;
-  url: string;
-};
+import { SearchResult } from "./LinkSectionEditor";
 
 type Props = {
   mark?: Mark;

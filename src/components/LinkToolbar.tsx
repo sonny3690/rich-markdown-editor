@@ -1,7 +1,8 @@
 import assert from "assert";
 import * as React from "react";
 import { EditorView } from "prosemirror-view";
-import LinkEditor, { SearchResult } from "./LinkEditor";
+import LinkEditor from "./LinkEditor";
+import { SearchResult } from "./LinkSectionEditor";
 import FloatingToolbar from "./FloatingToolbar";
 import createAndInsertLink from "../commands/createAndInsertLink";
 import baseDictionary from "../dictionary";
@@ -42,7 +43,7 @@ export default class LinkToolbar extends React.Component<Props> {
     window.removeEventListener("mousedown", this.handleClickOutside);
   }
 
-  handleClickOutside = ev => {
+  handleClickOutside = (ev) => {
     if (
       ev.target &&
       this.menuRef.current &&

@@ -592,7 +592,6 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
       onKeyDown,
     } = this.props;
     const dictionary = this.dictionary(this.props.dictionary);
-    console.log("this is slightly problematic!!");
 
     return (
       <Flex

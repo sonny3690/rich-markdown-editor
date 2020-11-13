@@ -17,11 +17,19 @@ import Input from "./Input";
 import ToolbarButton from "./ToolbarButton";
 import LinkSearchResult from "./LinkSearchResult";
 import baseDictionary from "../dictionary";
+import LinkSectionSearchResult from "./LinkSectionSearchResult";
 
-export type SearchResult = {
+export type SearchResult = SearchResultDrawer | SearchResultItem;
+
+type SearchResultItem = {
   title: string;
   subtitle?: string;
   url: string;
+  children: undefined;
+};
+
+type SearchResultDrawer = SearchResultItem & {
+  children: SearchResult[];
 };
 
 type Props = {
@@ -222,13 +230,6 @@ class LinkSectionEditor extends React.Component<Props, State> {
     if (this.props.onSearchLink) {
       try {
         const results = await this.props.onSearchLink(trimmedValue);
-        // this.setState((state) => ({
-        //   results: {
-        //     ...state.results,
-        //     [trimmedValue]: results,
-        //   },
-        //   previousValue: trimmedValue,
-        // }));
         this.updateSearchResults(results, trimmedValue);
       } catch (error) {
         console.error(error);
@@ -334,10 +335,11 @@ class LinkSectionEditor extends React.Component<Props, State> {
         {/* {showResults && ( */}
         <SearchResults id="link-search-results">
           {results.map((result, index) => (
-            <LinkSearchResult
+            <LinkSectionSearchResult
               key={result.url}
               title={result.title}
               subtitle={result.subtitle}
+              children={result.children}
               icon={<DocumentIcon color={theme.toolbarItem} />}
               onMouseOver={() => this.handleFocusLink(index)}
               onClick={this.handleSelectLink(result.url, result.title)}
