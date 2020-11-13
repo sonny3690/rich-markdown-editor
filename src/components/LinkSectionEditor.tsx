@@ -83,7 +83,8 @@ class LinkSectionEditor extends React.Component<Props, State> {
 
   componentDidMount = async () => {
     if (this.props.onSearchLink) {
-      await this.props.onSearchLink("");
+      const results = await this.props.onSearchLink("");
+      this.updateSearchResults(results, "");
     }
   };
 
@@ -196,6 +197,16 @@ class LinkSectionEditor extends React.Component<Props, State> {
     this.setState({ selectedIndex });
   };
 
+  updateSearchResults = (results: SearchResult[], previousValue: string) => {
+    this.setState((state) => ({
+      results: {
+        ...state.results,
+        [previousValue]: results,
+      },
+      previousValue,
+    }));
+  };
+
   handleChange = async (event): Promise<void> => {
     const value = event.target.value;
 
@@ -211,13 +222,14 @@ class LinkSectionEditor extends React.Component<Props, State> {
     if (this.props.onSearchLink) {
       try {
         const results = await this.props.onSearchLink(trimmedValue);
-        this.setState((state) => ({
-          results: {
-            ...state.results,
-            [trimmedValue]: results,
-          },
-          previousValue: trimmedValue,
-        }));
+        // this.setState((state) => ({
+        //   results: {
+        //     ...state.results,
+        //     [trimmedValue]: results,
+        //   },
+        //   previousValue: trimmedValue,
+        // }));
+        this.updateSearchResults(results, trimmedValue);
       } catch (error) {
         console.error(error);
       }

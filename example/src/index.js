@@ -178,7 +178,7 @@ class Example extends React.Component {
             return new Promise((resolve) => {
               setTimeout(() => {
                 resolve(
-                  term === ""
+                  term.length === 0
                     ? docSearchResults
                     : docSearchResults.filter((result) =>
                         result.title.toLowerCase().includes(term.toLowerCase())
