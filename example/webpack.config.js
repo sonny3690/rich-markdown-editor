@@ -19,9 +19,9 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.DefinePlugin({
-      "process.env": dotenv.parsed,
-    }),
+    // new webpack.DefinePlugin({
+    //   "process.env": dotenv.parsed,
+    // }),
   ],
 
   module: {

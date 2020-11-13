@@ -2,6 +2,7 @@ import * as React from "react";
 import debounce from "lodash/debounce";
 import ReactDOM from "react-dom";
 import Editor from "../../src";
+import { GET } from "../api";
 
 const element = document.getElementById("main");
 const savedText = localStorage.getItem("saved");
@@ -17,7 +18,6 @@ const docSearchResults = [
     title: "Functions",
     subtitle: "Search all functions",
     url: "/doc/hiring",
-    apiUrl: "/doc/functions",
   },
   {
     title: "Hiring",
@@ -55,21 +55,6 @@ const docSearchResults = [
     url: "/doc/meeting-notes",
   },
 ];
-
-class YoutubeEmbed extends React.Component {
-  render() {
-    const { attrs } = this.props;
-    const videoId = attrs.matches[1];
-
-    return (
-      <iframe
-        className={this.props.isSelected ? "ProseMirror-selectednode" : ""}
-        src={`https://www.youtube.com/embed/${videoId}?modestbranding=1`}
-      />
-    );
-  }
-}
-
 class Example extends React.Component {
   state = {
     readOnly: false,
@@ -187,6 +172,9 @@ class Example extends React.Component {
               }, Math.random() * 500);
             });
           }}
+          onSearchSectionLink={async (term, url) => {
+            GET("");
+          }}
           uploadImage={(file) => {
             console.log("File upload triggered: ", file);
 
@@ -195,25 +183,7 @@ class Example extends React.Component {
               setTimeout(() => resolve("https://picsum.photos/600/600"), 1500);
             });
           }}
-          embeds={[
-            {
-              title: "YouTube",
-              keywords: "youtube video tube google",
-              icon: () => (
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_%282017%29.svg"
-                  width={24}
-                  height={24}
-                />
-              ),
-              matcher: (url) => {
-                return url.match(
-                  /(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([a-zA-Z0-9_-]{11})$/i
-                );
-              },
-              component: YoutubeEmbed,
-            },
-          ]}
+          embeds={[]}
           dark={this.state.dark}
           autoFocus
         />

@@ -18,7 +18,6 @@ import ToolbarButton from "./ToolbarButton";
 import LinkSearchResult from "./LinkSearchResult";
 import baseDictionary from "../dictionary";
 import LinkSectionSearchResult from "./LinkSectionSearchResult";
-import { GET } from "../lib/api";
 
 export type SearchResult = SearchResultDrawer | SearchResultItem;
 
@@ -42,11 +41,12 @@ type Props = {
   onRemoveLink?: () => void;
   onCreateLink?: (title: string) => Promise<void>;
   onSearchLink?: (term: string) => Promise<SearchResult[]>;
-  onSelectLink: (options: {
-    href: string;
+  onSelectSection: (options: {
+    url: string;
     title?: string;
     from: number;
     to: number;
+    context: string[]
   }) => void;
   onClickLink: (href: string, event: MouseEvent) => void;
   onShowToast?: (message: string, code: string) => void;
@@ -74,6 +74,8 @@ class LinkSectionEditor extends React.Component<Props, State> {
     previousValue: "",
     results: {},
   };
+
+  previousSearchContext: string[] = [];
 
   get href(): string {
     return this.props.mark ? this.props.mark.attrs.href : "";
@@ -114,24 +116,22 @@ class LinkSectionEditor extends React.Component<Props, State> {
       return this.handleRemoveLink();
     }
 
-    this.save(href, href);
+    // skip it for now, not sure what it does
+    // this.save(href, href);
   };
 
-  save = (href: string, title?: string): void => {
-    href = href.trim();
+  save = (result: SearchResult): void => {
+    const query = result.url.trim();
 
-    if (href.length === 0) return;
+    if (query.length === 0) return;
 
     this.discardInputValue = true;
     const { from, to } = this.props;
 
-    // If the input doesn't start with a protocol or relative slash, make sure
-    // a protocol is added to the beginning
-    if (!isUrl(href) && !href.startsWith("/")) {
-      href = `https://${href}`;
-    }
+    this.previousSearchContext.push(query);
 
-    this.props.onSelectLink({ href, title, from, to });
+    // this is where we process our link and metadata
+    this.props.onSelectSection({ href: query, title: result.title, from, to });
   };
 
   handleKeyDown = (event: React.KeyboardEvent): void => {
@@ -145,13 +145,16 @@ class LinkSectionEditor extends React.Component<Props, State> {
         if (selectedIndex >= 0) {
           const result = results[selectedIndex];
           if (result) {
-            this.save(result.url, result.title);
+            // save the result
+            this.save(result);
           } else if (onCreateLink && selectedIndex === results.length) {
+            // otherwise we create
             this.handleCreateLink(this.suggestedLinkTitle);
           }
         } else {
-          // saves the raw input as href
-          this.save(value, value);
+          // this behavior shouldn't happen
+          // // saves the raw input as href
+          // this.save(value, value);
         }
 
         if (this.initialSelectionLength) {
@@ -270,12 +273,21 @@ class LinkSectionEditor extends React.Component<Props, State> {
     view.focus();
   };
 
-  handleSelectLink = (url: string, title: string) => async (event) => {
+  processNewItems = (): void => {};
+
+  handleSelectLink = (selectedResult: SearchResult) => async (event) => {
     event.preventDefault();
 
-    const res = await GET("section", { url });
+    const { url } = selectedResult;
 
-    console.log("res", res);
+    const res = (await GET("section", { url })) as any;
+
+    if (res.type === "items") {
+      // process more items
+    } else {
+      // keep them together
+      console.log("shouldnt reach for now ");
+    }
   };
 
   moveSelectionToEnd = () => {
@@ -342,7 +354,7 @@ class LinkSectionEditor extends React.Component<Props, State> {
               children={result.children}
               icon={<DocumentIcon color={theme.toolbarItem} />}
               onMouseOver={() => this.handleFocusLink(index)}
-              onClick={this.handleSelectLink(result.url, result.title)}
+              onClick={this.handleSelectLink(result)}
               selected={index === selectedIndex}
             />
           ))}

@@ -96,7 +96,10 @@ export default class LinkSectionToolbar extends React.Component<Props> {
     title: string;
     from: number;
     to: number;
+    context: string[];
   }) => {
+    // maybe only run this when we're actually inserting shit?
+
     const { view, onClose } = this.props;
 
     onClose();
@@ -105,6 +108,8 @@ export default class LinkSectionToolbar extends React.Component<Props> {
     const { dispatch, state } = view;
     const { from, to } = state.selection;
     assert(from === to);
+
+    // this is where the link inserting actually happens
 
     dispatch(
       view.state.tr
@@ -132,7 +137,7 @@ export default class LinkSectionToolbar extends React.Component<Props> {
             from={selection.from}
             to={selection.to}
             onCreateLink={onCreateLink ? this.handleOnCreateLink : undefined}
-            onSelectLink={this.handleOnSelectLink}
+            onSelectSection={this.handleOnSelectLink}
             onRemoveLink={onClose}
             {...rest}
           />

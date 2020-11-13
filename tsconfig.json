@@ -22,7 +22,7 @@
     "declaration": true,
   },
   "include": [
-    "src/**/*"
+    "src/**/*", "example/api"
   ],
   "exclude": [
     "dist",
