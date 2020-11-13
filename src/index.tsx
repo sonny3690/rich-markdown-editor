@@ -646,6 +646,7 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
                   onQuerySectionResult={this.props.onQuerySectionResult}
                   onShowToast={this.props.onShowToast}
                   onClose={this.handleCloseLinkSectionMenu}
+                  parser={this.parser}
                   tooltip={tooltip}
                 />
                 <BlockMenu

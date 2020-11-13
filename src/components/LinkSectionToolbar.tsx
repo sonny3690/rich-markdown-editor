@@ -5,12 +5,14 @@ import FloatingToolbar from "./FloatingToolbar";
 import createAndInsertLink from "../commands/createAndInsertLink";
 import baseDictionary from "../dictionary";
 import LinkSectionEditor, { SearchResult } from "./LinkSectionEditor";
+import { MarkdownParser } from "prosemirror-markdown";
 
 type Props = {
   isActive: boolean;
   view: EditorView;
   tooltip: typeof React.Component | React.FC<any>;
   dictionary: typeof baseDictionary;
+  parser: MarkdownParser<any>;
   onCreateLink?: (title: string) => Promise<string>;
   onSearchLink?: (term: string) => Promise<SearchResult[]>;
   onClickLink: (href: string, event: MouseEvent) => void;
@@ -111,7 +113,7 @@ export default class LinkSectionToolbar extends React.Component<Props> {
     console.log("we did it ", res);
 
     // send request here!
-    const { view, onClose } = this.props;
+    const { view, onClose, parser } = this.props;
 
     onClose();
     this.props.view.focus();
@@ -121,8 +123,11 @@ export default class LinkSectionToolbar extends React.Component<Props> {
     assert(from === to);
 
     // this is where the link inserting actually happens
+    const paste = parser.parse(res);
+    const slice = paste.slice(0);
 
-    dispatch(view.state.tr.insertText(res, from, to));
+    const transaction = view.state.tr.replaceSelection(slice);
+    view.dispatch(transaction);
   };
 
   render() {
