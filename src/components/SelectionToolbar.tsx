@@ -8,7 +8,8 @@ import getTableRowMenuItems from "../menus/tableRow";
 import getTableMenuItems from "../menus/table";
 import getFormattingMenuItems from "../menus/formatting";
 import FloatingToolbar from "./FloatingToolbar";
-import LinkEditor, { SearchResult } from "./LinkEditor";
+import LinkEditor from "./LinkEditor";
+import { SearchResult } from "./LinkSectionEditor";
 import Menu from "./Menu";
 import isMarkActive from "../queries/isMarkActive";
 import getMarkRange from "../queries/getMarkRange";
@@ -43,7 +44,7 @@ function isActive(props) {
   const fragment = slice.content;
   const nodes = fragment.content;
 
-  return some(nodes, n => n.content.size);
+  return some(nodes, (n) => n.content.size);
 }
 
 export default class SelectionToolbar extends React.Component<Props> {

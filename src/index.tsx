@@ -15,7 +15,7 @@ import styled, { ThemeProvider } from "styled-components";
 import { light as lightTheme, dark as darkTheme } from "./theme";
 import baseDictionary from "./dictionary";
 import Flex from "./components/Flex";
-import { SearchResult } from "./components/LinkEditor";
+import { SearchResult } from "./components/LinkSectionEditor";
 import { EmbedDescriptor, ToastType } from "./types";
 import SelectionToolbar from "./components/SelectionToolbar";
 import BlockMenu from "./components/BlockMenu";
@@ -592,6 +592,8 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
       onKeyDown,
     } = this.props;
     const dictionary = this.dictionary(this.props.dictionary);
+
+    console.log(process.env, process.env.REACT_APP_API_BASE_URL);
 
     return (
       <Flex

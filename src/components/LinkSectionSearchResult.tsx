@@ -18,6 +18,7 @@ function LinkSectionSearchResult({
   subtitle,
   selected,
   icon,
+  children,
   ...rest
 }: Props) {
   const ref = React.useCallback(
@@ -44,6 +45,7 @@ function LinkSectionSearchResult({
       <div>
         <Title>{title}</Title>
         {subtitle ? <Subtitle selected={selected}>{subtitle}</Subtitle> : null}
+        {children && ">"}
       </div>
     </ListItem>
   );

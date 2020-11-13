@@ -18,6 +18,7 @@ import ToolbarButton from "./ToolbarButton";
 import LinkSearchResult from "./LinkSearchResult";
 import baseDictionary from "../dictionary";
 import LinkSectionSearchResult from "./LinkSectionSearchResult";
+import { GET } from "../lib/api";
 
 export type SearchResult = SearchResultDrawer | SearchResultItem;
 
@@ -269,13 +270,12 @@ class LinkSectionEditor extends React.Component<Props, State> {
     view.focus();
   };
 
-  handleSelectLink = (url: string, title: string) => (event) => {
+  handleSelectLink = (url: string, title: string) => async (event) => {
     event.preventDefault();
-    this.save(url, title);
 
-    if (this.initialSelectionLength) {
-      this.moveSelectionToEnd();
-    }
+    const res = await GET("section", { url });
+
+    console.log("res", res);
   };
 
   moveSelectionToEnd = () => {
