@@ -125,6 +125,7 @@ class LinkSectionEditor extends React.Component<Props, State> {
   };
 
   save = (result: SearchResult): void => {
+    console.log("hit save with result", result);
     const query = result.url.trim();
 
     if (query.length === 0) return;
@@ -284,19 +285,20 @@ class LinkSectionEditor extends React.Component<Props, State> {
 
   processNewItems = (): void => {};
 
-  handleSelectLink = (selectedResult: SearchResult) => async (event) => {
+  handleSelectSection = (selectedResult: SearchResult) => async (event) => {
     event.preventDefault();
+    this.save(selectedResult);
 
     const { url } = selectedResult;
 
     const res = {};
 
-    if (res.type === "items") {
-      // process more items
-    } else {
-      // keep them together
-      console.log("shouldnt reach for now ");
-    }
+    // if (res.type === "items") {
+    //   // process more items
+    // } else {
+    //   // keep them together
+    //   console.log("shouldnt reach for now ");
+    // }
   };
 
   moveSelectionToEnd = () => {
@@ -330,7 +332,6 @@ class LinkSectionEditor extends React.Component<Props, State> {
       (!!suggestedLinkTitle && showCreateLink) || results.length >= 0;
     // !!suggestedLinkTitle && (showCreateLink || results.length >= 0);
 
-    console.log("results look like", results);
     return (
       <Wrapper>
         <Input
@@ -354,7 +355,6 @@ class LinkSectionEditor extends React.Component<Props, State> {
             )}
           </Tooltip>
         </ToolbarButton>
-        {/* {showResults && ( */}
         <SearchResults id="link-search-results">
           {results.map((result, index) => (
             <LinkSectionSearchResult
@@ -364,7 +364,7 @@ class LinkSectionEditor extends React.Component<Props, State> {
               children={result.children}
               icon={<DocumentIcon color={theme.toolbarItem} />}
               onMouseOver={() => this.handleFocusLink(index)}
-              onClick={this.handleSelectLink(result)}
+              onClick={this.handleSelectSection(result)}
               selected={index === selectedIndex}
             />
           ))}

@@ -38,7 +38,6 @@ function LinkSectionSearchResult({
     },
     [selected]
   );
-  console.log("created", title);
 
   return (
     <ListItem ref={ref} compact={!subtitle} selected={selected} {...rest}>

@@ -103,7 +103,10 @@ export default class LinkSectionToolbar extends React.Component<Props> {
   }) => {
     console.log("called called:");
     // maybe only run this when we're actually inserting shit?
-    const res = this.props.onQuerySectionResult(result, context);
+    const res = (await this.props.onQuerySectionResult(
+      result,
+      context
+    )) as string;
 
     console.log("we did it ", res);
 
@@ -119,15 +122,7 @@ export default class LinkSectionToolbar extends React.Component<Props> {
 
     // this is where the link inserting actually happens
 
-    // dispatch(
-    //   view.state.tr
-    //     .insertText(title, from, to)
-    //     .addMark(
-    //       from,
-    //       to + title.length,
-    //       state.schema.marks.code.create({ href })
-    //     )
-    // );
+    dispatch(view.state.tr.insertText(res, from, to));
   };
 
   render() {

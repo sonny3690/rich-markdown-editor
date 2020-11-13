@@ -90,7 +90,7 @@ class Example extends React.Component {
   handleSectionQueryResult = (result, context) => {
     console.log("section query");
     const url = "/" + context.join("#");
-    return GET("/section", { url });
+    return GET("/section", { url }).then((res) => res.data.body);
   };
 
   handleChange = debounce((value) => {
