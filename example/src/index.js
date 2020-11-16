@@ -13,48 +13,7 @@ This is example content. It is persisted between reloads in localStorage.
 `;
 const defaultValue = savedText || exampleText;
 
-const docSearchResults = [
-  {
-    title: "Functions",
-    subtitle: "Search all functions",
-    url: "/doc/hiring",
-  },
-  {
-    title: "Hiring",
-    subtitle: "Created by Jane",
-    url: "/doc/hiring",
-  },
-  {
-    title: "Product Roadmap",
-    subtitle: "Created by Tom",
-    url: "/doc/product-roadmap",
-  },
-  {
-    title: "Finances",
-    subtitle: "Created by Coley",
-    url: "/doc/finances",
-  },
-  {
-    title: "Security",
-    subtitle: "Created by Coley",
-    url: "/doc/security",
-  },
-  {
-    title: "Super secret stuff",
-    subtitle: "Created by Coley",
-    url: "/doc/secret-stuff",
-  },
-  {
-    title: "Supero notes",
-    subtitle: "Created by Vanessa",
-    url: "/doc/supero-notes",
-  },
-  {
-    title: "Meeting notes",
-    subtitle: "Created by Rob",
-    url: "/doc/meeting-notes",
-  },
-];
+const docSearchResults = GET("/search").then((res) => res.data.data);
 class Example extends React.Component {
   state = {
     readOnly: false,
@@ -179,10 +138,13 @@ class Example extends React.Component {
               }, Math.random() * 500);
             });
           }}
-          onSearchSectionLink={(term, url) => {
-            return GET("searchSection", { searchTerm: term }).then((out) => {
-              return out.data.results;
-            });
+          onSearchSection={async (term, url) => {
+            const results = await docSearchResults;
+            return results
+              .filter((res, index) =>
+                res.name.toLowerCase().includes(term.toLowerCase())
+              )
+              .slice(0, 30);
           }}
           uploadImage={(file) => {
             console.log("File upload triggered: ", file);

@@ -22,9 +22,9 @@ import LinkSectionSearchResult from "./LinkSectionSearchResult";
 export type SearchResult = SearchResultDrawer | SearchResultItem;
 
 type SearchResultItem = {
-  title: string;
+  name: string;
   subtitle?: string;
-  url: string;
+  id: string;
   children: undefined;
 };
 
@@ -358,8 +358,8 @@ class LinkSectionEditor extends React.Component<Props, State> {
         <SearchResults id="link-search-results">
           {results.map((result, index) => (
             <LinkSectionSearchResult
-              key={result.url}
-              title={result.title}
+              key={result.id}
+              title={result.name}
               subtitle={result.subtitle}
               children={result.children}
               icon={<DocumentIcon color={theme.toolbarItem} />}

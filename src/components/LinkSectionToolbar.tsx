@@ -103,14 +103,11 @@ export default class LinkSectionToolbar extends React.Component<Props> {
     to: number;
     context: string[];
   }) => {
-    console.log("called called:");
     // maybe only run this when we're actually inserting shit?
     const res = (await this.props.onQuerySectionResult(
       result,
       context
     )) as string;
-
-    console.log("we did it ", res);
 
     // send request here!
     const { view, onClose, parser } = this.props;
@@ -123,7 +120,7 @@ export default class LinkSectionToolbar extends React.Component<Props> {
     assert(from === to);
 
     // this is where the link inserting actually happens
-    const paste = parser.parse(res);
+    const paste = parser.parse(res.trim());
     const slice = paste.slice(0);
 
     const transaction = view.state.tr.replaceSelection(slice);
