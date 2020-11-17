@@ -17,7 +17,7 @@ import Input from "./Input";
 import ToolbarButton from "./ToolbarButton";
 import LinkSearchResult from "./LinkSearchResult";
 import baseDictionary from "../dictionary";
-import LinkSectionSearchResult from "./LinkSectionSearchResult";
+import SectionSearchResult from "./SectionSearchResult";
 
 export type SearchResult = SearchResultDrawer | SearchResultItem;
 
@@ -357,11 +357,10 @@ class LinkSectionEditor extends React.Component<Props, State> {
         </ToolbarButton>
         <SearchResults id="link-search-results">
           {results.map((result, index) => (
-            <LinkSectionSearchResult
+            <SectionSearchResult
               key={result.id}
               title={result.name}
               subtitle={result.subtitle}
-              children={result.children}
               icon={<DocumentIcon color={theme.toolbarItem} />}
               onMouseOver={() => this.handleFocusLink(index)}
               onClick={this.handleSelectSection(result)}
