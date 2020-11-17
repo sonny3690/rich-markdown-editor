@@ -109,6 +109,10 @@ export default class LinkSectionToolbar extends React.Component<Props> {
       context
     )) as string;
 
+    if (!res) {
+      return;
+    }
+
     // send request here!
     const { view, onClose, parser } = this.props;
 
