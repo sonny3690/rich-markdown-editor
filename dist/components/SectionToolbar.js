@@ -70,6 +70,9 @@ class LinkSectionToolbar extends React.Component {
         };
         this.handleOnSelectLink = async ({ result, context, }) => {
             const res = (await this.props.onQuerySectionResult(result, context));
+            if (!res) {
+                return;
+            }
             const { view, onClose, parser } = this.props;
             onClose();
             this.props.view.focus();
