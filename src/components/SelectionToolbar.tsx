@@ -9,7 +9,7 @@ import getTableMenuItems from "../menus/table";
 import getFormattingMenuItems from "../menus/formatting";
 import FloatingToolbar from "./FloatingToolbar";
 import LinkEditor from "./LinkEditor";
-import { SearchResult } from "./LinkSectionEditor";
+import { SearchResult } from "./SectionEditor";
 import Menu from "./Menu";
 import isMarkActive from "../queries/isMarkActive";
 import getMarkRange from "../queries/getMarkRange";

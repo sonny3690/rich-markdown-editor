@@ -2,7 +2,7 @@ import assert from "assert";
 import * as React from "react";
 import { EditorView } from "prosemirror-view";
 import LinkEditor from "./LinkEditor";
-import { SearchResult } from "./LinkSectionEditor";
+import { SearchResult } from "./SectionEditor";
 import FloatingToolbar from "./FloatingToolbar";
 import createAndInsertLink from "../commands/createAndInsertLink";
 import baseDictionary from "../dictionary";

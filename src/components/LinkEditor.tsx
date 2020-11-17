@@ -17,7 +17,7 @@ import Input from "./Input";
 import ToolbarButton from "./ToolbarButton";
 import LinkSearchResult from "./LinkSearchResult";
 import baseDictionary from "../dictionary";
-import { SearchResult } from "./LinkSectionEditor";
+import { SearchResult } from "./SectionEditor";
 
 type Props = {
   mark?: Mark;
@@ -124,7 +124,7 @@ class LinkEditor extends React.Component<Props, State> {
         if (selectedIndex >= 0) {
           const result = results[selectedIndex];
           if (result) {
-            this.save(result.url, result.title);
+            this.save(result.id, result.name);
           } else if (onCreateLink && selectedIndex === results.length) {
             this.handleCreateLink(this.suggestedLinkTitle);
           }
@@ -314,12 +314,12 @@ class LinkEditor extends React.Component<Props, State> {
           <SearchResults id="link-search-results">
             {results.map((result, index) => (
               <LinkSearchResult
-                key={result.url}
-                title={result.title}
+                key={result.id}
+                title={result.name}
                 subtitle={result.subtitle}
                 icon={<DocumentIcon color={theme.toolbarItem} />}
                 onMouseOver={() => this.handleFocusLink(index)}
-                onClick={this.handleSelectLink(result.url, result.title)}
+                onClick={this.handleSelectLink(result.id, result.name)}
                 selected={index === selectedIndex}
               />
             ))}

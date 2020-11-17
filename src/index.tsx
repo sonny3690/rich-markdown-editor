@@ -15,12 +15,12 @@ import styled, { ThemeProvider } from "styled-components";
 import { light as lightTheme, dark as darkTheme } from "./theme";
 import baseDictionary from "./dictionary";
 import Flex from "./components/Flex";
-import { SearchResult } from "./components/LinkSectionEditor";
+import { SearchResult } from "./components/SectionEditor";
 import { EmbedDescriptor, ToastType } from "./types";
 import SelectionToolbar from "./components/SelectionToolbar";
 import BlockMenu from "./components/BlockMenu";
 import LinkToolbar from "./components/LinkToolbar";
-import LinkSectionToolbar from "./components/LinkSectionToolbar";
+import LinkSectionToolbar from "./components/SectionToolbar";
 import Tooltip from "./components/Tooltip";
 import Extension from "./lib/Extension";
 import ExtensionManager from "./lib/ExtensionManager";
@@ -109,7 +109,10 @@ export type Props = {
   onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
   embeds: EmbedDescriptor[];
   onShowToast?: (message: string, code: ToastType) => void;
-  onQuerySectionResult?: (result: SearchResult, context: string[]) => void;
+  onQuerySectionResult: (
+    result: SearchResult,
+    context: string[]
+  ) => Promise<any>;
   tooltip: typeof React.Component | React.FC<any>;
   className?: string;
   style?: Record<string, string>;

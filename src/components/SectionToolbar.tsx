@@ -4,7 +4,7 @@ import { EditorView } from "prosemirror-view";
 import FloatingToolbar from "./FloatingToolbar";
 import createAndInsertLink from "../commands/createAndInsertLink";
 import baseDictionary from "../dictionary";
-import LinkSectionEditor, { SearchResult } from "./LinkSectionEditor";
+import LinkSectionEditor, { SearchResult } from "./SectionEditor";
 import { MarkdownParser } from "prosemirror-markdown";
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
   dictionary: typeof baseDictionary;
   parser: MarkdownParser<any>;
   onCreateLink?: (title: string) => Promise<string>;
-  onSearchLink?: (term: string) => Promise<SearchResult[]>;
+  onSearchSection?: (term: string) => Promise<SearchResult[]>;
   onClickLink: (href: string, event: MouseEvent) => void;
   onShowToast?: (msg: string, code: string) => void;
   onQuerySectionResult: (

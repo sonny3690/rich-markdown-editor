@@ -126,7 +126,7 @@ class LinkSectionEditor extends React.Component<Props, State> {
 
   save = (result: SearchResult): void => {
     console.log("hit save with result", result);
-    const query = result.url.trim();
+    const query = result.id.trim();
 
     if (query.length === 0) return;
 
@@ -289,7 +289,7 @@ class LinkSectionEditor extends React.Component<Props, State> {
     event.preventDefault();
     this.save(selectedResult);
 
-    const { url } = selectedResult;
+    const { id } = selectedResult;
 
     const res = {};
 

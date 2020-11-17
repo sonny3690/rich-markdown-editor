@@ -2,7 +2,7 @@ import * as React from "react";
 import debounce from "lodash/debounce";
 import ReactDOM from "react-dom";
 import Editor from "../../src";
-import { GET } from "../api";
+import { GET } from "./api";
 
 const element = document.getElementById("main");
 const savedText = localStorage.getItem("saved");
