@@ -128,8 +128,6 @@ class LinkSectionEditor extends React.Component<Props, State> {
     // console.log("hit save with result", result);
     // const query = result.id.trim();
 
-    // if (query.length === 0) return;
-
     this.discardInputValue = true;
     const { from, to } = this.props;
 
@@ -141,6 +139,12 @@ class LinkSectionEditor extends React.Component<Props, State> {
       from,
       to,
       context: this.searchContext,
+    });
+
+    // clean up
+    this.setState({
+      value: "",
+      selectedIndex: -1,
     });
   };
 
@@ -236,8 +240,6 @@ class LinkSectionEditor extends React.Component<Props, State> {
       value,
       selectedIndex: -1,
     });
-
-    console.log("chanigng value to", value);
 
     const trimmedValue = value.trim();
 

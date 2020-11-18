@@ -58,6 +58,10 @@ class LinkSectionEditor extends React.Component {
                 to,
                 context: this.searchContext,
             });
+            this.setState({
+                value: "",
+                selectedIndex: -1,
+            });
         };
         this.handleKeyDown = (event) => {
             switch (event.key) {
@@ -135,7 +139,6 @@ class LinkSectionEditor extends React.Component {
                 value,
                 selectedIndex: -1,
             });
-            console.log("chanigng value to", value);
             const trimmedValue = value.trim();
             if (this.props.onSearchSection) {
                 try {
