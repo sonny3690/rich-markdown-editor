@@ -110,6 +110,7 @@ export default class LinkSectionToolbar extends React.Component<Props> {
     );
 
     if (shouldClose === false) {
+      if (this.props.onSearchSection) await this.props.onSearchSection("");
       return;
     }
 
