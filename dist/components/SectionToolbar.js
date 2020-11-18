@@ -69,8 +69,8 @@ class LinkSectionToolbar extends React.Component {
             });
         };
         this.handleOnSelectLink = async ({ result, context, }) => {
-            const res = (await this.props.onQuerySectionResult(result, context));
-            if (!res) {
+            const [value, shouldClose] = await this.props.onQuerySectionResult(result, context);
+            if (shouldClose === false) {
                 return;
             }
             const { view, onClose, parser } = this.props;
@@ -79,7 +79,7 @@ class LinkSectionToolbar extends React.Component {
             const { dispatch, state } = view;
             const { from, to } = state.selection;
             assert_1.default(from === to);
-            const paste = parser.parse(res.trim());
+            const paste = parser.parse(value.trim());
             const slice = paste.slice(0);
             const transaction = view.state.tr.replaceSelection(slice);
             view.dispatch(transaction);

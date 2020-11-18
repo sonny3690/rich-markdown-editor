@@ -20,7 +20,7 @@ type Props = {
   onQuerySectionResult: (
     result: SearchResult,
     context: string[]
-  ) => Promise<any>;
+  ) => Promise<[string, boolean]>;
   onClose: () => void;
 };
 
@@ -104,12 +104,12 @@ export default class LinkSectionToolbar extends React.Component<Props> {
     context: string[];
   }) => {
     // maybe only run this when we're actually inserting shit?
-    const res = (await this.props.onQuerySectionResult(
+    const [value, shouldClose] = await this.props.onQuerySectionResult(
       result,
       context
-    )) as string;
+    );
 
-    if (!res) {
+    if (shouldClose === false) {
       return;
     }
 
@@ -124,7 +124,7 @@ export default class LinkSectionToolbar extends React.Component<Props> {
     assert(from === to);
 
     // this is where the link inserting actually happens
-    const paste = parser.parse(res.trim());
+    const paste = parser.parse(value.trim());
     const slice = paste.slice(0);
 
     const transaction = view.state.tr.replaceSelection(slice);

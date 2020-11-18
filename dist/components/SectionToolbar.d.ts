@@ -13,7 +13,7 @@ declare type Props = {
     onSearchSection?: (term: string) => Promise<SearchResult[]>;
     onClickLink: (href: string, event: MouseEvent) => void;
     onShowToast?: (msg: string, code: string) => void;
-    onQuerySectionResult: (result: SearchResult, context: string[]) => Promise<any>;
+    onQuerySectionResult: (result: SearchResult, context: string[]) => Promise<[string, boolean]>;
     onClose: () => void;
 };
 export default class LinkSectionToolbar extends React.Component<Props> {
