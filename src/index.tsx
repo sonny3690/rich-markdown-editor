@@ -113,6 +113,7 @@ export type Props = {
     result: SearchResult,
     context: string[]
   ) => Promise<any>;
+  onCloseSectionMenu: () => void;
   tooltip: typeof React.Component | React.FC<any>;
   className?: string;
   style?: Record<string, string>;
@@ -502,12 +503,12 @@ class RichMarkdownEditor extends React.PureComponent<Props, State> {
   };
 
   handleOpenLinkSectionMenu = () => {
-    console.log("triggeered!!");
     this.setState({ linkSectionMenuOpen: true });
   };
 
   handleCloseLinkSectionMenu = () => {
     this.setState({ linkSectionMenuOpen: false });
+    this.props.onCloseSectionMenu();
   };
 
   handleOpenBlockMenu = (search: string) => {

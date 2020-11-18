@@ -132,6 +132,7 @@ export declare type Props = {
     embeds: EmbedDescriptor[];
     onShowToast?: (message: string, code: ToastType) => void;
     onQuerySectionResult: (result: SearchResult, context: string[]) => Promise<any>;
+    onCloseSectionMenu: () => void;
     tooltip: typeof React.Component | React.FC<any>;
     className?: string;
     style?: Record<string, string>;

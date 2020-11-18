@@ -50,13 +50,8 @@ class LinkSectionEditor extends React.Component {
             }
         };
         this.save = (result) => {
-            console.log("hit save with result", result);
-            const query = result.id.trim();
-            if (query.length === 0)
-                return;
             this.discardInputValue = true;
             const { from, to } = this.props;
-            this.searchContext.push(query);
             this.props.onSelectSection({
                 result,
                 from,

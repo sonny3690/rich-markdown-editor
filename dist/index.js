@@ -114,11 +114,11 @@ class RichMarkdownEditor extends React.PureComponent {
             this.setState({ linkMenuOpen: false });
         };
         this.handleOpenLinkSectionMenu = () => {
-            console.log("triggeered!!");
             this.setState({ linkSectionMenuOpen: true });
         };
         this.handleCloseLinkSectionMenu = () => {
             this.setState({ linkSectionMenuOpen: false });
+            this.props.onCloseSectionMenu();
         };
         this.handleOpenBlockMenu = (search) => {
             this.setState({ blockMenuOpen: true, blockMenuSearch: search });

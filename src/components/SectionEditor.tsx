@@ -125,15 +125,15 @@ class LinkSectionEditor extends React.Component<Props, State> {
   };
 
   save = (result: SearchResult): void => {
-    console.log("hit save with result", result);
-    const query = result.id.trim();
+    // console.log("hit save with result", result);
+    // const query = result.id.trim();
 
-    if (query.length === 0) return;
+    // if (query.length === 0) return;
 
     this.discardInputValue = true;
     const { from, to } = this.props;
 
-    this.searchContext.push(query);
+    // this.searchContext.push(query);
 
     // this is where we process our link and metadata
     this.props.onSelectSection({
