@@ -140,12 +140,6 @@ class LinkSectionEditor extends React.Component<Props, State> {
       to,
       context: this.searchContext,
     });
-
-    // clean up
-    this.setState({
-      value: "",
-      selectedIndex: -1,
-    });
   };
 
   handleKeyDown = (event: React.KeyboardEvent): void => {
@@ -291,16 +285,10 @@ class LinkSectionEditor extends React.Component<Props, State> {
     event.preventDefault();
     this.save(selectedResult);
 
-    const { id } = selectedResult;
-
-    const res = {};
-
-    // if (res.type === "items") {
-    //   // process more items
-    // } else {
-    //   // keep them together
-    //   console.log("shouldnt reach for now ");
-    // }
+    if (this.props.onSearchSection) {
+      const results = await this.props.onSearchSection("");
+      this.updateSearchResults(results, "");
+    }
   };
 
   moveSelectionToEnd = () => {

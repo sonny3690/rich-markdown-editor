@@ -58,10 +58,6 @@ class LinkSectionEditor extends React.Component {
                 to,
                 context: this.searchContext,
             });
-            this.setState({
-                value: "",
-                selectedIndex: -1,
-            });
         };
         this.handleKeyDown = (event) => {
             switch (event.key) {
@@ -179,8 +175,10 @@ class LinkSectionEditor extends React.Component {
         this.handleSelectSection = (selectedResult) => async (event) => {
             event.preventDefault();
             this.save(selectedResult);
-            const { id } = selectedResult;
-            const res = {};
+            if (this.props.onSearchSection) {
+                const results = await this.props.onSearchSection("");
+                this.updateSearchResults(results, "");
+            }
         };
         this.moveSelectionToEnd = () => {
             const { to, view } = this.props;
